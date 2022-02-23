@@ -6,6 +6,8 @@ const jsonschema = require("jsonschema");
 const shippingSchema = require("../schema/shippingSchema.json");
 const { shipProduct } = require("../shipItApi");
 
+const { BadRequestError} = require("../expressError");
+
 /** POST /ship
  *
  * VShips an order coming from json body:
@@ -15,7 +17,7 @@ const { shipProduct } = require("../shipItApi");
  */
 
 router.post("/", async function (req, res, next) {
-  const result = jsonschema.validate(req.body.order, shippingSchema);
+  const result = jsonschema.validate(req.body, shippingSchema);
   if (!result.valid) {
     // pass validation errors to error handler
     //  (the "stack" key is generally the most useful)
