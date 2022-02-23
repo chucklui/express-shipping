@@ -16,9 +16,19 @@ const { shipProduct, SHIPIT_SHIP_URL } = require("./shipItApi");
   //   expect(shipId).toEqual(expect.any(Number));
   // });
 
+
   test("test about axios request", async function () {
+
     axiosMock.onPost(`${SHIPIT_SHIP_URL}`)
-        .reply(200, { shipped: 1001 });
+        .reply(200, {
+          receipt: {
+            itemId: 1000,
+            name: 'Test Tester',
+            addr: '100 Test St',
+            zip: '12345-6789',
+            shipId: 4936
+          }
+        });
   
     const res = await shipProduct({
       productId: 1000,
@@ -26,5 +36,5 @@ const { shipProduct, SHIPIT_SHIP_URL } = require("./shipItApi");
       addr: "100 Test St",
       zip: "12345-6789",
     });
-    expect(res).toEqual({ shipped: 1001 });
+    expect(res).toEqual( 4936 );
   });
