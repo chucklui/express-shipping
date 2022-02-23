@@ -15,4 +15,25 @@ describe("POST /", function () {
 
     expect(resp.body).toEqual({ shipped: expect.any(Number) });
   });
+
+  test("invalid productId", async function () {
+    const resp = await request(app).post("/shipments").send({
+      productId: 999,
+      name: "Test Tester",
+      addr: "100 Test St",
+      zip: "12345-6789",
+    });
+
+    expect(resp.body).toEqual({ shipped: expect.any(Number) });
+  });
+
+  test("invalid: missing name", async function () {
+    const resp = await request(app).post("/shipments").send({
+      productId: 1000,
+      addr: "100 Test St",
+      zip: "12345-6789",
+    });
+
+    expect(resp.body).toEqual({ shipped: expect.any(Number) });
+  });
 });
